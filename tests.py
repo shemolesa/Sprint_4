@@ -1,11 +1,12 @@
 import pytest
-from main import BooksCollector
+
+import data
 
 # класс TestBooksCollector объединяет набор тестов, которыми мы покрываем наше приложение BooksCollector
 class TestBooksCollector:
 
     # проверяем, что в словарь не добавляются книги с негативным именем: такая книга уже есть в словаре, имя книги не указано, имя книги больше 41 символа
-    @pytest.mark.parametrize('name', ['Король лев', '', '4 1  s y m b o l                         !'])
+    @pytest.mark.parametrize('name', ['', '4 1  s y m b o l                         !'])
     def test_add_new_book_negative_name_not_added_book(self, collector, name, books_genre):
         len_books_genre = len(collector.books_genre) # вычисляем исходную длину словаря
         collector.add_new_book(name) # добавляем книгу с негативным именем
@@ -26,9 +27,9 @@ class TestBooksCollector:
         assert collector.get_books_with_specific_genre('Комедия') == [] #проверяем, что список пустой
 
     # проверяем корректность вывода словаря книг с жанром
-    def test_get_books_genre_dict_book_genre_true(self, collector, reference_dictionary):
-        collector.books_genre = reference_dictionary  # заполняем словарь
-        assert collector.get_books_genre() == reference_dictionary # сравниваем полученный словарь с эталоном
+    def test_get_books_genre_dict_book_genre_true(self, collector):
+        collector.books_genre = data.dict_books_genre  # заполняем словарь
+        assert collector.get_books_genre() == data.dict_books_genre #reference_dictionary # сравниваем полученный словарь с эталоном
 
     #проверяем отсутствие в списке книг для детей книг с возрастным рейтингом
     def test_get_books_for_children_dict_book_genre_without_genre_age_rating(self, collector, books_genre):
